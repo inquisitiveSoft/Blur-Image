@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A34CF551998F95600BB5716 /* UIImage+BlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A34CF541998F95600BB5716 /* UIImage+BlurredImage.m */; };
 		4A720BE61997FD8B008E7D2B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A720BE51997FD8B008E7D2B /* Foundation.framework */; };
 		4A720BE81997FD8B008E7D2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A720BE71997FD8B008E7D2B /* CoreGraphics.framework */; };
 		4A720BEA1997FD8B008E7D2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A720BE91997FD8B008E7D2B /* UIKit.framework */; };
@@ -21,7 +22,6 @@
 		4A720C071997FD8B008E7D2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A720BE91997FD8B008E7D2B /* UIKit.framework */; };
 		4A720C0F1997FD8B008E7D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A720C0D1997FD8B008E7D2B /* InfoPlist.strings */; };
 		4A720C111997FD8B008E7D2B /* Blur_ImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A720C101997FD8B008E7D2B /* Blur_ImageTests.m */; };
-		4A720C1C1997FEF8008E7D2B /* UIImage+BlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A720C1B1997FEF8008E7D2B /* UIImage+BlurredImage.m */; };
 		4AB5DE2919983C39004EE41E /* Example Images in Resources */ = {isa = PBXBuildFile; fileRef = 4AB5DE2819983C39004EE41E /* Example Images */; };
 		4AB5DEF519984743004EE41E /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5DE3019984742004EE41E /* EXTRuntimeExtensions.m */; };
 		4AB5DEF619984743004EE41E /* NSArray+RACSequenceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5DE3419984742004EE41E /* NSArray+RACSequenceAdditions.m */; };
@@ -127,6 +127,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A34CF531998F95600BB5716 /* UIImage+BlurredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+BlurredImage.h"; path = "../../Source/UIImage+BlurredImage.h"; sourceTree = "<group>"; };
+		4A34CF541998F95600BB5716 /* UIImage+BlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+BlurredImage.m"; path = "../../Source/UIImage+BlurredImage.m"; sourceTree = "<group>"; };
 		4A720BE21997FD8B008E7D2B /* Blur Image.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blur Image.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A720BE51997FD8B008E7D2B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4A720BE71997FD8B008E7D2B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -146,8 +148,6 @@
 		4A720C0C1997FD8B008E7D2B /* Blur ImageTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blur ImageTests-Info.plist"; sourceTree = "<group>"; };
 		4A720C0E1997FD8B008E7D2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A720C101997FD8B008E7D2B /* Blur_ImageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Blur_ImageTests.m; sourceTree = "<group>"; };
-		4A720C1A1997FEF8008E7D2B /* UIImage+BlurredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BlurredImage.h"; sourceTree = "<group>"; };
-		4A720C1B1997FEF8008E7D2B /* UIImage+BlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BlurredImage.m"; sourceTree = "<group>"; };
 		4AB5DE2819983C39004EE41E /* Example Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Example Images"; sourceTree = "<group>"; };
 		4AB5DE2E19984742004EE41E /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
 		4AB5DE2F19984742004EE41E /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
@@ -404,8 +404,8 @@
 				4A720BF71997FD8B008E7D2B /* Main.storyboard */,
 				4A720BFA1997FD8B008E7D2B /* BlurryImageViewController.h */,
 				4A720BFB1997FD8B008E7D2B /* BlurryImageViewController.m */,
-				4A720C1A1997FEF8008E7D2B /* UIImage+BlurredImage.h */,
-				4A720C1B1997FEF8008E7D2B /* UIImage+BlurredImage.m */,
+				4A34CF531998F95600BB5716 /* UIImage+BlurredImage.h */,
+				4A34CF541998F95600BB5716 /* UIImage+BlurredImage.m */,
 				4A720BFD1997FD8B008E7D2B /* Images.xcassets */,
 				4A720BEC1997FD8B008E7D2B /* Supporting Files */,
 			);
@@ -772,7 +772,6 @@
 				4AB5DEFF19984743004EE41E /* NSNotificationCenter+RACSupport.m in Sources */,
 				4AB5DF3219984743004EE41E /* RACSignalSequence.m in Sources */,
 				4AB5DF1919984743004EE41E /* RACDynamicSequence.m in Sources */,
-				4A720C1C1997FEF8008E7D2B /* UIImage+BlurredImage.m in Sources */,
 				4AB5DF1119984743004EE41E /* RACBehaviorSubject.m in Sources */,
 				4AB5DF5119984743004EE41E /* UITableViewHeaderFooterView+RACSignalSupport.m in Sources */,
 				4AB5DF3A19984743004EE41E /* RACTestScheduler.m in Sources */,
@@ -834,6 +833,7 @@
 				4AB5DF2F19984743004EE41E /* RACSignal+Operations.m in Sources */,
 				4AB5DF0D19984743004EE41E /* NSURLConnection+RACSupport.m in Sources */,
 				4AB5DF3519984743004EE41E /* RACSubject.m in Sources */,
+				4A34CF551998F95600BB5716 /* UIImage+BlurredImage.m in Sources */,
 				4AB5DF3619984743004EE41E /* RACSubscriber.m in Sources */,
 				4AB5DF1E19984743004EE41E /* RACErrorSignal.m in Sources */,
 				4AB5DF1719984743004EE41E /* RACDelegateProxy.m in Sources */,

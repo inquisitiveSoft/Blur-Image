@@ -18,11 +18,11 @@
 
 - (UIImage *)blurredImage
 {
-	return [self blurredImageWithRadius:125 repetitions:3];
+	return [self blurredImageWithRadius:125];
 }
 
 
-- (UIImage *)blurredImageWithRadius:(NSInteger)radius repetitions:(NSInteger)numberOfRepetitions
+- (UIImage *)blurredImageWithRadius:(NSInteger)radius
 {
 	if((radius & 1) == 0) {
 		radius ++;
@@ -34,10 +34,6 @@
 	} else if(radius < 1) {
 		radius = 1;
 		NSLog(@"-blurredImageWithRadius: Radius must be positive");
-	}
-	
-	if(numberOfRepetitions < 1) {
-		numberOfRepetitions = 1;
 	}
 	
 	
@@ -56,7 +52,9 @@
 	vImage_Error error = kvImageNoError;
 	
 	// Apply the convolution the desired number of times
-	// http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf	
+	// http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf
+	NSInteger numberOfRepetitions = 1;
+	
 	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
 		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
 		
