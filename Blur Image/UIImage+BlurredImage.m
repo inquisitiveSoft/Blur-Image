@@ -55,7 +55,8 @@
 	vImage_Buffer blurredBuffer = {pixelBuffer, imageSize.height, imageSize.width, bytesPerRow};
 	vImage_Error error = kvImageNoError;
 	
-	// Apply the convolution the desired number of times (tent convolve only varies by 3% from a gaussian blur)
+	// Apply the convolution the desired number of times
+	// http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf	
 	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
 		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
 		

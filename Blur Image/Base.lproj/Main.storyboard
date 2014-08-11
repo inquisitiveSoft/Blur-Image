@@ -16,11 +16,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="60" minValue="1" maxValue="130" translatesAutoresizingMaskIntoConstraints="NO" id="TPx-Rv-TaM">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="60" minValue="1" maxValue="130" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPx-Rv-TaM">
                                 <rect key="frame" x="18" y="70" width="284" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="EfU-Ui-l88">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfU-Ui-l88">
                                 <rect key="frame" x="18" y="150" width="284" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
@@ -53,14 +53,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXH-YE-Blo">
-                                <rect key="frame" x="133" y="220" width="55" height="17"/>
+                                <rect key="frame" x="133" y="453" width="55" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sHV-R4-okI">
-                                <rect key="frame" x="20" y="520" width="280" height="29"/>
+                                <rect key="frame" x="20" y="500" width="280" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="First"/>
@@ -75,7 +75,6 @@
                         <constraints>
                             <constraint firstItem="TPx-Rv-TaM" firstAttribute="top" secondItem="CeX-IS-GsG" secondAttribute="bottom" constant="5" id="1MN-af-Vnv"/>
                             <constraint firstItem="EfU-Ui-l88" firstAttribute="top" secondItem="4Ee-cc-2aV" secondAttribute="bottom" constant="5" id="3QX-Km-VZB"/>
-                            <constraint firstItem="ZXH-YE-Blo" firstAttribute="top" secondItem="EfU-Ui-l88" secondAttribute="bottom" constant="40" id="EZN-Af-0sw"/>
                             <constraint firstItem="jMQ-7z-qa2" firstAttribute="trailing" secondItem="EfU-Ui-l88" secondAttribute="trailing" id="Etx-7m-gM0"/>
                             <constraint firstItem="EfU-Ui-l88" firstAttribute="top" secondItem="jMQ-7z-qa2" secondAttribute="bottom" constant="5" id="Hbj-Ym-iEC"/>
                             <constraint firstItem="sHV-R4-okI" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="IX7-Qe-40k"/>
@@ -83,10 +82,11 @@
                             <constraint firstAttribute="trailing" secondItem="sHV-R4-okI" secondAttribute="trailing" constant="20" id="P9y-R3-HqQ"/>
                             <constraint firstItem="TPx-Rv-TaM" firstAttribute="leading" secondItem="mBc-Cm-XYA" secondAttribute="leading" id="PL3-bg-dAs"/>
                             <constraint firstAttribute="trailing" secondItem="EfU-Ui-l88" secondAttribute="trailing" constant="20" id="Ph8-VT-GzJ"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="sHV-R4-okI" secondAttribute="bottom" constant="20" id="R2Q-jO-ZwM"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="sHV-R4-okI" secondAttribute="bottom" constant="40" id="R2Q-jO-ZwM"/>
                             <constraint firstItem="TPx-Rv-TaM" firstAttribute="leading" secondItem="mBc-Cm-XYA" secondAttribute="leading" id="Ti0-oV-Xmt"/>
                             <constraint firstItem="EfU-Ui-l88" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="W7g-ll-8e8"/>
                             <constraint firstItem="4Ee-cc-2aV" firstAttribute="leading" secondItem="EfU-Ui-l88" secondAttribute="leading" id="X40-kZ-Dmn"/>
+                            <constraint firstItem="sHV-R4-okI" firstAttribute="top" secondItem="ZXH-YE-Blo" secondAttribute="bottom" constant="30" id="cRL-Du-2p5"/>
                             <constraint firstItem="TPx-Rv-TaM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="50" id="jtw-qX-7u3"/>
                             <constraint firstItem="CeX-IS-GsG" firstAttribute="trailing" secondItem="TPx-Rv-TaM" secondAttribute="trailing" id="lMa-De-hip"/>
                             <constraint firstAttribute="trailing" secondItem="TPx-Rv-TaM" secondAttribute="trailing" constant="20" id="ulF-kd-zeq"/>
@@ -96,7 +96,7 @@
                             <constraint firstItem="EfU-Ui-l88" firstAttribute="top" secondItem="TPx-Rv-TaM" secondAttribute="bottom" constant="50" id="zNU-dO-Qpz"/>
                         </constraints>
                     </view>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="durationLabel" destination="ZXH-YE-Blo" id="vKW-KL-mrv"/>
                         <outlet property="radiusNumberLabel" destination="CeX-IS-GsG" id="myY-HO-zMS"/>
