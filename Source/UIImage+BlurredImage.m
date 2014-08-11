@@ -24,15 +24,17 @@
 
 - (UIImage *)blurredImageWithRadius:(NSInteger)radius
 {
-	if((radius & 1) == 0) {
-		radius ++;
+	uint32_t blurRadius = (uint32_t)radius;
+	
+	if((blurRadius & 1) == 0) {
+		blurRadius ++;
 	}
 	
-	if(radius > 127) {
-		radius = 127;
+	if(blurRadius > 127) {
+		blurRadius = 127;
 		NSLog(@"blurredImageWithRadius: 127 seems to be the maximum kernel size for vImageTentConvolve_ARGB8888");
-	} else if(radius < 1) {
-		radius = 1;
+	} else if(blurRadius < 1) {
+		blurRadius = 1;
 		NSLog(@"-blurredImageWithRadius: Radius must be positive");
 	}
 	
@@ -56,7 +58,7 @@
 	NSInteger numberOfRepetitions = 1;
 	
 	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
-		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
+		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, blurRadius, blurRadius, NULL, kvImageEdgeExtend);
 		
 		if(error != kvImageNoError) {
 			NSLog(@"Couldn't blur image due to vImage_Error: %ld", error);
