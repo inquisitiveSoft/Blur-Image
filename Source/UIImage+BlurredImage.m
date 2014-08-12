@@ -70,8 +70,16 @@
 	UIImage *destinationImage = nil;
 	
 	if(error == kvImageNoError) {
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-		CGContextRef context = CGBitmapContextCreate(pixelBuffer, imageSize.width, imageSize.height, 8, bytesPerRow, colorSpace, CGImageGetBitmapInfo(sourceImageRef));
+		CGColorSpaceRef colorSpace = CGImageGetColorSpace(sourceImageRef);
+		CGContextRef context = CGBitmapContextCreate(pixelBuffer,
+													imageSize.width,
+													imageSize.height,
+													CGImageGetBitsPerComponent(sourceImageRef),
+													CGImageGetBytesPerRow(sourceImageRef),
+													colorSpace,
+													kCGImageAlphaNoneSkipLast);
+		
+		
 		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
 		CGContextRelease(context);
 		CGColorSpaceRelease(colorSpace);
