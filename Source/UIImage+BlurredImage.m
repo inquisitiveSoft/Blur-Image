@@ -77,7 +77,7 @@
 													CGImageGetBitsPerComponent(sourceImageRef),
 													CGImageGetBytesPerRow(sourceImageRef),
 													colorSpace,
-													kCGImageAlphaNoneSkipLast);
+													(CGBitmapInfo)kCGImageAlphaNoneSkipLast);	// Is this a safe assumption?
 		
 		
 		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
