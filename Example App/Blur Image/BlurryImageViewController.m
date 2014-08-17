@@ -92,7 +92,7 @@
 		}
 	}
 	
-	NSLog(@"Couldn't find example image at index: %ld", (long)imageIndex);
+	NSLog(@"Couldn't find an example image at index: %ld", (long)imageIndex);
 	return nil;
 }
 
