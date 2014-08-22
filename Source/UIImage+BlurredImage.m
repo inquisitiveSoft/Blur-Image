@@ -24,20 +24,23 @@
 
 - (UIImage *)blurredImageWithRadius:(NSInteger)radius
 {
-	if((radius & 1) == 0) {
-		radius ++;
+	uint32_t blurRadius = (uint32_t)radius;
+	
+	if((blurRadius & 1) == 0) {
+		blurRadius ++;
 	}
 	
-	if(radius > 127) {
-		radius = 127;
+	if(blurRadius > 127) {
+		blurRadius = 127;
 		NSLog(@"blurredImageWithRadius: 127 seems to be the maximum kernel size for vImageTentConvolve_ARGB8888");
-	} else if(radius < 1) {
-		radius = 1;
+	} else if(blurRadius < 1) {
+		blurRadius = 1;
 		NSLog(@"-blurredImageWithRadius: Radius must be positive");
 	}
 	
 	
 	CGImageRef sourceImageRef = [self CGImage];
+	
 	CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
 	NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
 	
@@ -56,7 +59,7 @@
 	NSInteger numberOfRepetitions = 1;
 	
 	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
-		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
+		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, blurRadius, blurRadius, NULL, kvImageEdgeExtend);
 		
 		if(error != kvImageNoError) {
 			NSLog(@"Couldn't blur image due to vImage_Error: %ld", error);
@@ -68,11 +71,22 @@
 	UIImage *destinationImage = nil;
 	
 	if(error == kvImageNoError) {
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-		CGContextRef context = CGBitmapContextCreate(pixelBuffer, imageSize.width, imageSize.height, 8, bytesPerRow, colorSpace, CGImageGetBitmapInfo(sourceImageRef));
+//		vImage_CGImageFormat outputFormat = vImage_CGImageFormat;
+//		vImage_Error *error = nil;
+//		vImageCreateCGImageFromBuffer(blurredBuffer, imageFormat, NULL, NULL, 0, &error)
+		
+		CGColorSpaceRef colorSpace = CGImageGetColorSpace(sourceImageRef);
+		CGContextRef context = CGBitmapContextCreate(pixelBuffer,
+													imageSize.width,
+													imageSize.height,
+													CGImageGetBitsPerComponent(sourceImageRef),
+													CGImageGetBytesPerRow(sourceImageRef),
+													colorSpace,
+													(CGBitmapInfo)kCGImageAlphaNoneSkipLast);	// Is this a safe assumption?
+		
+		
 		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
 		CGContextRelease(context);
-		CGColorSpaceRelease(colorSpace);
 		
 		destinationImage = [UIImage imageWithCGImage:destinationImageRef];
 		CGImageRelease(destinationImageRef);
