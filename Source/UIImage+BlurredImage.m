@@ -22,44 +22,46 @@
 }
 
 
-- (UIImage *)blurredImageWithRadius:(NSInteger)radius
+- (UIImage *)blurredImageWithRadius:(uint32_t)radius
 {
-	uint32_t blurRadius = (uint32_t)radius;
-	
-	if((blurRadius & 1) == 0) {
-		blurRadius ++;
+	if((radius & 1) == 0) {
+		radius ++;
 	}
 	
-	if(blurRadius > 127) {
-		blurRadius = 127;
+	if(radius > 127) {
+		radius = 127;
 		NSLog(@"blurredImageWithRadius: 127 seems to be the maximum kernel size for vImageTentConvolve_ARGB8888");
-	} else if(blurRadius < 1) {
-		blurRadius = 1;
+	} else if(radius < 1) {
+		radius = 1;
 		NSLog(@"-blurredImageWithRadius: Radius must be positive");
 	}
 	
 	
 	CGImageRef sourceImageRef = [self CGImage];
 	
-	CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
-	NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
+	vImage_CGImageFormat sourceImageFormat = {
+		.bitsPerComponent = (uint32_t)CGImageGetBitsPerComponent(sourceImageRef),
+		.bitsPerPixel = (uint32_t)CGImageGetBitsPerPixel(sourceImageRef),
+		.bitmapInfo = CGImageGetBitmapInfo(sourceImageRef),
+		.colorSpace = CGImageGetColorSpace(sourceImageRef),
+	};
 	
-	CGDataProviderRef dataProvider = CGImageGetDataProvider(sourceImageRef);
-	CFDataRef inputData = CGDataProviderCopyData(dataProvider);
-	void *pixelBuffer = malloc(bytesPerRow * imageSize.height);
-	NSParameterAssert(pixelBuffer);
+	vImage_Buffer inputBuffer;
+	vImage_Error error = vImageBuffer_InitWithCGImage(&inputBuffer, &sourceImageFormat, NULL, sourceImageRef, kvImageNoFlags);
 	
 	// Prepare the input and output buffers
-	vImage_Buffer inputBuffer = {(void *)CFDataGetBytePtr(inputData), imageSize.height, imageSize.width, bytesPerRow};
+	CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
+	NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
+	void *pixelBuffer = malloc(bytesPerRow * imageSize.height);
 	vImage_Buffer blurredBuffer = {pixelBuffer, imageSize.height, imageSize.width, bytesPerRow};
-	vImage_Error error = kvImageNoError;
-	
+	error = kvImageNoError;
+
 	// Apply the convolution the desired number of times
 	// http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf
 	NSInteger numberOfRepetitions = 1;
 	
 	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
-		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, blurRadius, blurRadius, NULL, kvImageEdgeExtend);
+		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
 		
 		if(error != kvImageNoError) {
 			NSLog(@"Couldn't blur image due to vImage_Error: %ld", error);
@@ -71,29 +73,17 @@
 	UIImage *destinationImage = nil;
 	
 	if(error == kvImageNoError) {
-//		vImage_CGImageFormat outputFormat = vImage_CGImageFormat;
-//		vImage_Error *error = nil;
-//		vImageCreateCGImageFromBuffer(blurredBuffer, imageFormat, NULL, NULL, 0, &error)
-		
-		CGColorSpaceRef colorSpace = CGImageGetColorSpace(sourceImageRef);
-		CGContextRef context = CGBitmapContextCreate(pixelBuffer,
-													imageSize.width,
-													imageSize.height,
-													CGImageGetBitsPerComponent(sourceImageRef),
-													CGImageGetBytesPerRow(sourceImageRef),
-													colorSpace,
-													(CGBitmapInfo)kCGImageAlphaNoneSkipLast);	// Is this a safe assumption?
-		
-		
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+		CGContextRef context = CGBitmapContextCreate(pixelBuffer, imageSize.width, imageSize.height, 8, bytesPerRow, colorSpace, CGImageGetBitmapInfo(sourceImageRef));
 		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
 		CGContextRelease(context);
+		CGColorSpaceRelease(colorSpace);
 		
 		destinationImage = [UIImage imageWithCGImage:destinationImageRef];
 		CGImageRelease(destinationImageRef);
 	}
 	
 	free(pixelBuffer);
-	CFRelease(inputData);
 	
 	return destinationImage;
 }

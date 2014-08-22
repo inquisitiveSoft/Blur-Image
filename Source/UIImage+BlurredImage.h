@@ -15,6 +15,6 @@
 @interface UIImage (BlurredImage)
 
 - (UIImage *)blurredImage;
-- (UIImage *)blurredImageWithRadius:(NSInteger)radius;
+- (UIImage *)blurredImageWithRadius:(uint32_t)radius;
 
 @end
