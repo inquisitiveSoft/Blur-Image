@@ -40,6 +40,7 @@
 	
 	
 	CGImageRef sourceImageRef = [self CGImage];
+	
 	CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
 	NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
 	
@@ -70,6 +71,10 @@
 	UIImage *destinationImage = nil;
 	
 	if(error == kvImageNoError) {
+//		vImage_CGImageFormat outputFormat = vImage_CGImageFormat;
+//		vImage_Error *error = nil;
+//		vImageCreateCGImageFromBuffer(blurredBuffer, imageFormat, NULL, NULL, 0, &error)
+		
 		CGColorSpaceRef colorSpace = CGImageGetColorSpace(sourceImageRef);
 		CGContextRef context = CGBitmapContextCreate(pixelBuffer,
 													imageSize.width,
@@ -82,7 +87,6 @@
 		
 		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
 		CGContextRelease(context);
-		CGColorSpaceRelease(colorSpace);
 		
 		destinationImage = [UIImage imageWithCGImage:destinationImageRef];
 		CGImageRelease(destinationImageRef);
