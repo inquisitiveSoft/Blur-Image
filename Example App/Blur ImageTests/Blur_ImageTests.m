@@ -7,8 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "ReactiveCocoa.h"
+#import "UIImage+BlurredImage.h"
+
 
 @interface Blur_ImageTests : XCTestCase
+
+@property (strong) RACSequence *originalImagesSequence;
 
 @end
 
@@ -17,18 +22,35 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+	
+	NSArray *availableImageURLs = [[NSBundle mainBundle] URLsForResourcesWithExtension:@"jpg" subdirectory:@"Example Images"];
+	self.originalImagesSequence = [[availableImageURLs rac_sequence] map:^id(NSURL *imageURL) {
+		NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+		
+		if(imageData) {
+			return [[UIImage alloc] initWithData:imageData];
+		}
+		
+		return nil;
+	}];
 }
+
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+	self.originalImagesSequence = nil;
+	
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testBlurringASequenceOfImages
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+	RACSequence *blurredImageSequence =[self.originalImagesSequence map:^id(UIImage *sharpImage) {
+		return [sharpImage blurredImageWithRadius:20.0];
+	}];
+	
+	NSArray *blurredImages = [blurredImageSequence array];
+	XCTAssert(blurredImages.count == 4, @"");
 }
 
 @end

@@ -114,6 +114,7 @@
 		4AB5DF5919984813004EE41E /* RACQueueScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5DF5519984813004EE41E /* RACQueueScheduler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4AB5DF5A19984813004EE41E /* RACTargetQueueScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5DF5819984813004EE41E /* RACTargetQueueScheduler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4AB5DF5D199848A3004EE41E /* RACBacktrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5DF5C199848A3004EE41E /* RACBacktrace.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4AF7DB9919A7D8B5004BBA3C /* Example Images in Resources */ = {isa = PBXBuildFile; fileRef = 4AB5DE2819983C39004EE41E /* Example Images */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -737,6 +738,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A720C0F1997FD8B008E7D2B /* InfoPlist.strings in Resources */,
+				4AF7DB9919A7D8B5004BBA3C /* Example Images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
