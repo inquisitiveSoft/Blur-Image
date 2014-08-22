@@ -45,11 +45,18 @@
 
 - (void)testBlurringASequenceOfImages
 {
-	RACSequence *blurredImageSequence =[self.originalImagesSequence map:^id(UIImage *sharpImage) {
-		return [sharpImage blurredImageWithRadius:20.0];
+	__block NSTimeInterval combinedDuration = 0.0;
+	
+	RACSequence *blurredImageSequence = [self.originalImagesSequence map:^id(UIImage *sharpImage) {
+		NSDate *start = [NSDate date];
+		UIImage *blurredImage = [sharpImage blurredImageWithRadius:20.0];
+		combinedDuration += -[start timeIntervalSinceNow];
+		return blurredImage;
 	}];
 	
 	NSArray *blurredImages = [blurredImageSequence array];
+	
+	NSLog(@"combinedDuration: %f, average: %f", combinedDuration, combinedDuration / 4.0);
 	XCTAssert(blurredImages.count == 4, @"");
 }
 
