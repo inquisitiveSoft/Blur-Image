@@ -39,7 +39,8 @@
 	
 	CGImageRef sourceImageRef = [self CGImage];
 	
-	vImage_CGImageFormat sourceImageFormat = {
+	// Prepare the input buffer
+	vImage_CGImageFormat imageFormat = {
 		.bitsPerComponent = (uint32_t)CGImageGetBitsPerComponent(sourceImageRef),
 		.bitsPerPixel = (uint32_t)CGImageGetBitsPerPixel(sourceImageRef),
 		.bitmapInfo = CGImageGetBitmapInfo(sourceImageRef),
@@ -47,45 +48,36 @@
 	};
 	
 	vImage_Buffer inputBuffer;
-	vImage_Error error = vImageBuffer_InitWithCGImage(&inputBuffer, &sourceImageFormat, NULL, sourceImageRef, kvImageNoFlags);
+	vImage_Error error = vImageBuffer_InitWithCGImage(&inputBuffer, &imageFormat, NULL, sourceImageRef, kvImageNoFlags);
 	
-	// Prepare the input and output buffers
-	CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
-	NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
-	void *pixelBuffer = malloc(bytesPerRow * imageSize.height);
-	vImage_Buffer blurredBuffer = {pixelBuffer, imageSize.height, imageSize.width, bytesPerRow};
-	error = kvImageNoError;
-
-	// Apply the convolution the desired number of times
-	// http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf
-	NSInteger numberOfRepetitions = 1;
 	
-	for(NSUInteger repetition = 0; repetition < numberOfRepetitions; repetition++) {
+	if(error != kvImageNoError) {
+		NSLog(@"Couldn't convert the given image to a vImageBuffer image. Error: %ld", error);
+	} else {
+		CGSize imageSize = CGSizeMake(CGImageGetWidth(sourceImageRef), CGImageGetHeight(sourceImageRef));
+		NSInteger bytesPerRow = CGImageGetBytesPerRow(sourceImageRef);
+		void *pixelBuffer = malloc(bytesPerRow * imageSize.height);
+		vImage_Buffer blurredBuffer = {pixelBuffer, imageSize.height, imageSize.width, bytesPerRow};
+		
+		// Apply the blur convolution, http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf
 		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
 		
-		if(error != kvImageNoError) {
-			NSLog(@"Couldn't blur image due to vImage_Error: %ld", error);
-			break;
-		}
-	}
-	
-	
-	UIImage *destinationImage = nil;
-	
-	if(error == kvImageNoError) {
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-		CGContextRef context = CGBitmapContextCreate(pixelBuffer, imageSize.width, imageSize.height, 8, bytesPerRow, colorSpace, CGImageGetBitmapInfo(sourceImageRef));
-		CGImageRef destinationImageRef = CGBitmapContextCreateImage(context);
-		CGContextRelease(context);
-		CGColorSpaceRelease(colorSpace);
+		UIImage *destinationImage = nil;
 		
-		destinationImage = [UIImage imageWithCGImage:destinationImageRef];
-		CGImageRelease(destinationImageRef);
+		if(error == kvImageNoError) {
+			CGImageRef destinationImageRef = vImageCreateCGImageFromBuffer(&blurredBuffer, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
+			destinationImage = [UIImage imageWithCGImage:destinationImageRef];
+			CGImageRelease(destinationImageRef);
+		} else {
+			NSLog(@"Couldn't blur image due to vImage_Error: %ld", error);
+		}
+		
+		free(pixelBuffer);
+		
+		return destinationImage;
 	}
 	
-	free(pixelBuffer);
-	
-	return destinationImage;
+	return nil;
 }
 
 
