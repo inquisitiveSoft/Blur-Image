@@ -11,7 +11,7 @@ Blur Image is a category on UIImage that creates a blurry image using CPU optimi
 ```
 
 # Example App
-The example app is my first foray into using ReactiveCocoa, which is fun.
+The example app is my first foray into using ReactiveCocoa, which is fun. It's very simple.
 
 ![Example App Screenshot](https://raw.githubusercontent.com/inquisitiveSoft/Blur-Image/master/Example%20App/Example%20App%20Screenshot.png)
 

@@ -49,7 +49,7 @@
 	
 	vImage_Buffer inputBuffer;
 	vImage_Error error = vImageBuffer_InitWithCGImage(&inputBuffer, &imageFormat, NULL, sourceImageRef, kvImageNoFlags);
-	
+	UIImage *destinationImage = nil;
 	
 	if(error != kvImageNoError) {
 		NSLog(@"Couldn't convert the given image to a vImageBuffer image. Error: %ld", error);
@@ -62,8 +62,6 @@
 		// Apply the blur convolution, http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf
 		error = vImageTentConvolve_ARGB8888(&inputBuffer, &blurredBuffer, NULL, 0, 0, radius, radius, NULL, kvImageEdgeExtend);
 		
-		UIImage *destinationImage = nil;
-		
 		if(error == kvImageNoError) {
 			CGImageRef destinationImageRef = vImageCreateCGImageFromBuffer(&blurredBuffer, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
 			destinationImage = [UIImage imageWithCGImage:destinationImageRef];
@@ -73,11 +71,9 @@
 		}
 		
 		free(pixelBuffer);
-		
-		return destinationImage;
 	}
 	
-	return nil;
+	return destinationImage;
 }
 
 
